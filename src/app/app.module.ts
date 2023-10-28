@@ -13,6 +13,7 @@ import {MatButtonModule} from "@angular/material/button";
 import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
 import {BaseUrlService} from "./services/interceptors/base-url.service";
 import { DashboardComponent } from './dashboard/dashboard.component';
+import {loginReducer} from "./store/login/login.reducer";
 
 
 @NgModule({
@@ -25,7 +26,9 @@ import { DashboardComponent } from './dashboard/dashboard.component';
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
-    StoreModule.forRoot({}, {}),
+    StoreModule.forRoot({
+      login: loginReducer
+    }),
     EffectsModule.forRoot([]),
     MatInputModule,
     ReactiveFormsModule,

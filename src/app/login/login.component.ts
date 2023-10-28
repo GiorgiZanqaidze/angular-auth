@@ -45,7 +45,7 @@ export class LoginComponent {
           return throwError('An error occurred while processing your request.');
         })
       )
-      .subscribe((response) => {
+      .subscribe(() => {
         this.router.navigate(['dashboard']).catch(err => console.log(err))
       })
   }

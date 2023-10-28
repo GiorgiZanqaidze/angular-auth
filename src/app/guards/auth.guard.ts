@@ -1,9 +1,7 @@
 import { Injectable } from '@angular/core';
 import { CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot, Router } from '@angular/router';
 import {ApiService} from "../services/api/api.service";
-import {catchError, Observable, Subscription} from "rxjs";
-import {HttpErrorResponse} from "@angular/common/http";
-import {error} from "@angular/compiler-cli/src/transformers/util";
+
 
 @Injectable({
   providedIn: 'root'
