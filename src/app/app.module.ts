@@ -14,6 +14,8 @@ import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
 import {BaseUrlService} from "./services/interceptors/base-url.service";
 import { DashboardComponent } from './dashboard/dashboard.component';
 import {loginReducer} from "./store/login/login.reducer";
+import {userReducer} from "./store/user/user.reducer";
+import {LoginEffects} from "./store/login/login.effects";
 
 
 @NgModule({
@@ -27,9 +29,12 @@ import {loginReducer} from "./store/login/login.reducer";
     AppRoutingModule,
     BrowserAnimationsModule,
     StoreModule.forRoot({
-      login: loginReducer
+      login: loginReducer,
+      user: userReducer
     }),
-    EffectsModule.forRoot([]),
+    EffectsModule.forRoot([
+      LoginEffects
+    ]),
     MatInputModule,
     ReactiveFormsModule,
     MatButtonModule,

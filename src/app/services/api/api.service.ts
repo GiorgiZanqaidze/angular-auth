@@ -19,13 +19,8 @@ export class ApiService {
   }
 
 
-  authUserObservable = new BehaviorSubject<any>(null)
 
   user!: any
-
-  initAuthUser(userData: any) {
-    this.authUserObservable.next(userData)
-  }
 
   getAuthUser() {
     return this.http.get('/api/user')

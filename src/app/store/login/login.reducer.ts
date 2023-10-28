@@ -1,24 +1,18 @@
 import {createReducer, on} from "@ngrx/store";
-import {loginUser} from "./login.actions";
+import {FormControl, FormGroup, Validators} from "@angular/forms";
 
 
-interface loginStore {
-  loginForm: {
-    email: string,
-    password: string
-  }
+export interface loginStore {
+  loginForm: FormGroup
 }
 
 const initialState: loginStore = {
-  loginForm: {
-    email: "",
-    password: ""
-  }
+  loginForm: new FormGroup({
+    "email": new FormControl("", [Validators.email, Validators.required]),
+    "password": new FormControl("", [Validators.required])
+  })
 }
 
 export const loginReducer = createReducer(
   initialState,
-  on(loginUser, (state, action) => {
-    return state
-  })
 )
