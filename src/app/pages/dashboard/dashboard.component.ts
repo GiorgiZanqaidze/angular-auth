@@ -25,4 +25,10 @@ export class DashboardComponent implements OnInit{
     })
   }
 
+  logOut() {
+    this.api.logOut().subscribe(res => {
+      console.log(res)
+    })
+  }
+
 }
