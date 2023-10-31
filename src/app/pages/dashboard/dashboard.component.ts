@@ -15,7 +15,7 @@ export class DashboardComponent implements OnInit{
   constructor(private api: ApiService, private userStore: Store<{user: UserRole}>) {
   }
 
-  user$!: UserRole
+  user$!: UserRole | null
 
 
   ngOnInit() {

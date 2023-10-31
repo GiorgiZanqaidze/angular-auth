@@ -7,3 +7,7 @@ export const setUserData = createAction(
   "[User] Set User Data",
     props<UserRole>()
 )
+
+export const deleteUserData = createAction(
+  "[User] Delete Data"
+)
