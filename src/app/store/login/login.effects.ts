@@ -4,8 +4,8 @@ import {catchError, exhaustMap, Observable, of} from "rxjs";
 import {loginUser} from "./login.actions";
 import {ApiService} from "../../services/api/api.service";
 import {map} from "rxjs/operators";
-import {setUserData} from "../user/user.actions";
-import {UserRole} from "../../shared/types/user-role";
+import {HttpErrorResponse} from "@angular/common/http";
+
 
 
 @Injectable()
@@ -21,7 +21,7 @@ export class LoginEffects {
       exhaustMap(({email, password}) => {
         return this.apiService.login({email, password}).pipe(
           map((userData: any) => ({type: "[User] Set User Data", userData})),
-        )
+          catchError(async (error) => ({type: "[Login] Api Error", error})))
       })
     )
   })
