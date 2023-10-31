@@ -41,7 +41,7 @@ export class AuthGuard implements CanActivate {
             } else if (!route.data['requireUserData'] && userData.error) {
               return true
             } else {
-              this.router.navigate(["/login"])
+              this.router.navigate(["/login"]).then()
               this.userStore.dispatch(deleteUserData())
               return true
             }
