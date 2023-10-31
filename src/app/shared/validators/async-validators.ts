@@ -1,7 +1,7 @@
 import { AbstractControl, ValidationErrors, AsyncValidatorFn } from '@angular/forms';
 import { Observable, of, timer } from 'rxjs';
 import { map, switchMap, catchError } from 'rxjs/operators';
-import {ApiService} from "../services/api/api.service";
+import {ApiService} from "../../services/api/api.service";
 
 // Simulate an API call to check if the user is authorized
 const simulateAuthorizedUserCheck = (email: string): Observable<boolean> => {

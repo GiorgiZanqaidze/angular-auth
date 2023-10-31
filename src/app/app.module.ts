@@ -6,13 +6,16 @@ import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
-import { LoginComponent } from './login/login.component';
+import { LoginComponent } from './pages/login/login.component';
 import {MatInputModule} from "@angular/material/input";
 import {ReactiveFormsModule} from "@angular/forms";
 import {MatButtonModule} from "@angular/material/button";
 import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
 import {BaseUrlService} from "./services/interceptors/base-url.service";
-import { DashboardComponent } from './dashboard/dashboard.component';
+import { DashboardComponent } from './pages/dashboard/dashboard.component';
+import {loginReducer} from "./store/login/login.reducer";
+import {userReducer} from "./store/user/user.reducer";
+import {LoginEffects} from "./store/login/login.effects";
 
 
 @NgModule({
@@ -25,8 +28,13 @@ import { DashboardComponent } from './dashboard/dashboard.component';
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
-    StoreModule.forRoot({}, {}),
-    EffectsModule.forRoot([]),
+    StoreModule.forRoot({
+      login: loginReducer,
+      user: userReducer
+    }),
+    EffectsModule.forRoot([
+      LoginEffects
+    ]),
     MatInputModule,
     ReactiveFormsModule,
     MatButtonModule,
