@@ -1,25 +1,23 @@
 import {createReducer, on} from "@ngrx/store";
 import {UserRole} from "../../shared/types/user-role";
-import {setUserData} from "./user.actions";
+import {deleteUserData, setUserData} from "./user.actions";
 
 
 export interface userStore {
-  user: UserRole
+  user: UserRole | null
 }
 
 
 const initialState:userStore = {
-    user: {
-      name: "",
-      email: "",
-      id: null
-    }
+    user: null
 }
 
 export const userReducer = createReducer(
   initialState,
-  on(setUserData, (state, {name, email, id}) => {
-
-    return {...state, user: {name, email, id}}
+  on(setUserData, (state, action) => {
+    return {...state, user: {name: action.name, id: action.id, email: action.email}}
+  }),
+  on(deleteUserData, (state) => {
+    return {...state, user: null}
   })
 )

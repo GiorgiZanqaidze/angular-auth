@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {ApiService} from "../../services/api/api.service";
 import {Store} from "@ngrx/store";
 import {UserRole} from "../../shared/types/user-role";
@@ -15,7 +15,7 @@ export class DashboardComponent implements OnInit{
   constructor(private api: ApiService, private userStore: Store<{user: UserRole}>) {
   }
 
-  user$!: UserRole
+  user$!: UserRole | null
 
 
   ngOnInit() {
@@ -25,5 +25,10 @@ export class DashboardComponent implements OnInit{
     })
   }
 
+  logOut() {
+    this.api.logOut().subscribe(res => {
+      console.log(res)
+    })
+  }
 
 }
