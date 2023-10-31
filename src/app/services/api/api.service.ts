@@ -27,12 +27,10 @@ export class ApiService {
 
 
 
-  user!: any
 
   getAuthUser() {
     return this.http.get('/api/user')
       .pipe(map((userData: any) => {
-        this.user = userData
         this.userStore.dispatch(setUserData(userData))
         return userData
       }))

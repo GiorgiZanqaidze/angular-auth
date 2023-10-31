@@ -21,7 +21,11 @@ const routes: Routes = [
     component: DashboardComponent,
     canActivate: [AuthGuard],
     data: { requireUserData: true }
-  }
+  },
+  {
+    path: '**',
+    redirectTo: "login"
+  },
 ];
 
 @NgModule({

@@ -9,18 +9,13 @@ export interface userStore {
 
 
 const initialState:userStore = {
-    user: {
-      name: "",
-      email: "",
-      id: null
-    }
+    user: null
 }
 
 export const userReducer = createReducer(
   initialState,
-  on(setUserData, (state, {name, email, id}) => {
-
-    return {...state, user: {name, email, id}}
+  on(setUserData, (state, action) => {
+    return {...state, user: {name: action.name, id: action.id, email: action.email}}
   }),
   on(deleteUserData, (state) => {
     return {...state, user: null}

@@ -20,22 +20,26 @@ export class AuthGuard implements CanActivate {
               private api: ApiService,
               private userStore: Store<{user: userStore}>,
               private http: HttpClient
-  ) {}
+  ) {
+    this.userStore.select(user).subscribe(res => this.authUser$ = res)
+  }
+  authUser$!: UserRole | null
 
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean|UrlTree>|Promise<boolean|UrlTree>|boolean|UrlTree {
     const cookie = document.cookie
-    if (!this.api.user && cookie) {
+    const requiredUserDataOnRoute = route.data['requireUserData'] as boolean
+
+    if (!this.authUser$ && cookie) {
       return this.http.get('/api/user')
         .pipe(
           catchError((err) => {
             return of(err)
           }),
           map((userData) => {
-            this.api.user = userData
             this.userStore.dispatch(setUserData(userData))
-            if (route.data['requireUserData'] && !userData.error) {
+            if (requiredUserDataOnRoute && !userData.error) {
               return true
-            } else if (!route.data['requireUserData'] && !userData.error) {
+            } else if (!requiredUserDataOnRoute && !userData.error) {
               this.router.navigate(['dashboard']).then()
               return true
             } else if (!route.data['requireUserData'] && userData.error) {
@@ -46,12 +50,13 @@ export class AuthGuard implements CanActivate {
               return true
             }
         }))
-    }else if(!this.api.user && !route.data['requireUserData'] as boolean) {
+    }else if(!this.authUser$ && !requiredUserDataOnRoute) {
       return true
-    } else if (this.api.user && !route.data['requireUserData'] as boolean) {
+    } else if (this.authUser$ && !requiredUserDataOnRoute) {
       return false
-    } else if (!this.api.user && route.data['requireUserData'] as boolean) {
-      return this.router.navigate(['/login'])
+    } else if (!this.authUser$ && requiredUserDataOnRoute) {
+      this.router.navigate(['/login'])
+      return true
     }
     return true
   }
