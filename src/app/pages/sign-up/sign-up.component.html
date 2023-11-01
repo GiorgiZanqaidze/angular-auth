@@ -1,9 +1,9 @@
-
 <div class="min-h-screen min-w-full flex justify-center items-center">
-  <form [formGroup]="loginForm" (ngSubmit)="submitLoginData()" class="flex items-center w-1/4 flex-col">
-    <mat-hint class="text-red-600 mb-10  w-full" [ngClass]="(apiErrors | async) ? 'block bg-red-100': ''">
-      {{apiErrors | async}}
-    </mat-hint>
+  <form [formGroup]="signUpForm" (ngSubmit)="submitLoginData()" class="flex items-center w-1/4 flex-col">
+    <mat-form-field class="w-full">
+      <mat-label>Name</mat-label>
+      <input type="text" formControlName="name" matInput id="name">
+    </mat-form-field>
     <mat-form-field class="w-full">
       <mat-label>Email</mat-label>
       <input type="email" formControlName="email" matInput id="email">
@@ -12,7 +12,6 @@
       <mat-label>Password</mat-label>
       <input type="password" formControlName="password" matInput id="password">
     </mat-form-field>
-    <button class="w-full text-xl" mat-raised-button color="primary" [disabled]="loginForm.invalid">Log In</button>
+    <button class="w-full text-xl" mat-raised-button color="primary" [disabled]="signUpForm.invalid">Log In</button>
   </form>
 </div>
-

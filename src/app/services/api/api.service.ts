@@ -10,6 +10,8 @@ import {LoginForm} from "../../shared/types/login-form";
 import {ApiModifiedResponse} from "../../store/login/login.effects";
 import {Router} from "@angular/router";
 import {clearAllCookies} from "../../shared/utilities/clearCookies";
+import {SignUpService} from "../sign-up/sign-up.service";
+import {SignUpForm} from "../../shared/types/sign-up-form";
 
 @Injectable({
   providedIn: 'root'
@@ -39,5 +41,9 @@ export class ApiService {
         clearAllCookies()
         this.userStore.dispatch(deleteUserData())
       }))
+  }
+
+  signUp(signUpData: Partial<SignUpForm>) {
+    return this.http.post("/api/register", signUpData)
   }
 }

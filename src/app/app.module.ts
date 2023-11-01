@@ -16,13 +16,15 @@ import { DashboardComponent } from './pages/dashboard/dashboard.component';
 import {loginReducer} from "./store/login/login.reducer";
 import {userReducer} from "./store/user/user.reducer";
 import {LoginEffects} from "./store/login/login.effects";
+import { SignUpComponent } from './pages/sign-up/sign-up.component';
 
 
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
-    DashboardComponent
+    DashboardComponent,
+    SignUpComponent
   ],
   imports: [
     BrowserModule,
