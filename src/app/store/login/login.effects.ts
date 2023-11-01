@@ -48,7 +48,9 @@ export class LoginEffects {
           map((response: ApiResponse) => {
             this.router.navigate(['/dashboard']).then();
             const data = response.user
-            return { type: "[User] Delete Data", data }
+            this.loginService.loginForm.reset()
+            this.loginService.setApiError(null)
+            return { type: "[User] Set User Dat", data }
           }),
           catchError(async (error: HttpErrorResponse): Promise<errorResponse> => {
             const controls = this.loginService.loginForm.controls
@@ -57,15 +59,13 @@ export class LoginEffects {
             controls.password.setValidators(apiValidator)
             controls.password.updateValueAndValidity()
             this.loginService.loginForm.updateValueAndValidity()
-            this.loginService.setApiError(error.error.ERROR)
-
+            this.loginService.setApiError(error.error.message)
             setTimeout(() => {
               controls.email.removeValidators(apiValidator)
               controls.email.updateValueAndValidity()
               controls.password.removeValidators(apiValidator)
               controls.password.updateValueAndValidity()
               this.loginService.loginForm.updateValueAndValidity()
-              this.loginService.setApiError(null)
             }, 4000)
             return ({ type: "[Login] Api Error", error })
           }),

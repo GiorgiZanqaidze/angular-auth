@@ -19,12 +19,9 @@ import {LoginForm} from "../../shared/types/login-form";
 })
 export class LoginComponent implements OnInit{
 
-  constructor(
-              private loginStore: Store<{login: loginStore}>,
-              private loginService: LoginService
-  ) {
-    loginStore.select(loginForm).subscribe(res => {
-      this.formDataForSubmit = res
+  constructor(private loginStore: Store<{login: loginStore}>, private loginService: LoginService) {
+    loginStore.select(loginForm).subscribe(form => {
+      this.formDataForSubmit = form
     })
   }
 
@@ -36,7 +33,6 @@ export class LoginComponent implements OnInit{
 
   submitLoginData() {
     this.loginStore.dispatch(loginUser(this.formDataForSubmit))
-    console.log(this.apiErrors)
   }
 
   ngOnInit() {
