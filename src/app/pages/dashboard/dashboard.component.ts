@@ -4,6 +4,7 @@ import {Store} from "@ngrx/store";
 import {UserRole} from "../../shared/types/user-role";
 import {user} from "../../store/user/user.selectors";
 import {userStore} from "../../store/user/user.reducer";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-dashboard',
@@ -12,22 +13,24 @@ import {userStore} from "../../store/user/user.reducer";
 })
 export class DashboardComponent implements OnInit{
 
-  constructor(private api: ApiService, private userStore: Store<{user: UserRole}>) {
+  constructor(private api: ApiService,
+              private userStore: Store<{user: UserRole}>,
+              private router: Router
+  ) {
   }
 
   user$!: UserRole | null
 
 
   ngOnInit() {
-    // this.api.getAuthUser().subscribe(res => console.log(res))
-    this.userStore.select(user).subscribe(res => {
-      this.user$ = res
+    this.userStore.select(user).subscribe(user => {
+      this.user$ = user
     })
   }
 
   logOut() {
     this.api.logOut().subscribe(res => {
-      console.log(res)
+      this.router.navigate(["/login"])
     })
   }
 

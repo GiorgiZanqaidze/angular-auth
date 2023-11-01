@@ -19,7 +19,6 @@ export class AuthGuard implements CanActivate {
   constructor(private router: Router,
               private api: ApiService,
               private userStore: Store<{user: userStore}>,
-              private http: HttpClient
   ) {
     this.userStore.select(user).subscribe(res => this.authUser$ = res)
   }
@@ -30,7 +29,7 @@ export class AuthGuard implements CanActivate {
     const requiredUserDataOnRoute = route.data['requireUserData'] as boolean
 
     if (!this.authUser$ && cookie) {
-      return this.http.get('/api/user')
+      return this.api.getAuthUser()
         .pipe(
           catchError((err) => {
             return of(err)
