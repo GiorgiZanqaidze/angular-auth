@@ -10,6 +10,8 @@ import {UserRole} from "../../shared/types/user-role";
 
 import {Action, Store} from "@ngrx/store";
 import {userStore} from "../user/user.reducer";
+import {LoginService} from "../../services/login/login.service";
+import {apiValidator} from "../../shared/validators/api-validator";
 
 
 export interface ApiResponse {
@@ -33,7 +35,8 @@ export class LoginEffects {
   constructor(private actions$: Actions,
               private apiService: ApiService,
               private router: Router,
-              private userStore: Store<{user: userStore}>
+              private userStore: Store<{user: userStore}>,
+              private loginService: LoginService
   ) {
   }
 
@@ -45,9 +48,27 @@ export class LoginEffects {
           map((response: ApiResponse) => {
             this.router.navigate(['/dashboard']).then();
             const data = response.user
-            return { type: "[User] Delete Data", data }
+            this.loginService.loginForm.reset()
+            this.loginService.setApiError(null)
+            return { type: "[User] Set User Dat", data }
           }),
-          catchError(async (error: HttpErrorResponse): Promise<errorResponse> => ({ type: "[Login] Api Error", error })),
+          catchError(async (error: HttpErrorResponse): Promise<errorResponse> => {
+            const controls = this.loginService.loginForm.controls
+            controls.email.setValidators(apiValidator)
+            controls.email.updateValueAndValidity()
+            controls.password.setValidators(apiValidator)
+            controls.password.updateValueAndValidity()
+            this.loginService.loginForm.updateValueAndValidity()
+            this.loginService.setApiError(error.error.message)
+            setTimeout(() => {
+              controls.email.removeValidators(apiValidator)
+              controls.email.updateValueAndValidity()
+              controls.password.removeValidators(apiValidator)
+              controls.password.updateValueAndValidity()
+              this.loginService.loginForm.updateValueAndValidity()
+            }, 4000)
+            return ({ type: "[Login] Api Error", error })
+          }),
         );
       })
     );

@@ -1,13 +1,16 @@
 import {Component, OnInit} from '@angular/core';
 import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {HttpErrorResponse} from "@angular/common/http";
-import {catchError, throwError} from "rxjs";
+import {catchError, Observable, throwError} from "rxjs";
 import {ApiService} from "../../services/api/api.service";
 import {Router} from "@angular/router";
 import {Store} from "@ngrx/store";
 import {loginStore} from "../../store/login/login.reducer";
 import {loginUser, setLoginForm} from "../../store/login/login.actions";
 import {apiValidator} from "../../shared/validators/api-validator";
+import {LoginService} from "../../services/login/login.service";
+import {loginForm} from "../../store/login/login.selectors";
+import {LoginForm} from "../../shared/types/login-form";
 
 @Component({
   selector: 'app-login',
@@ -16,43 +19,20 @@ import {apiValidator} from "../../shared/validators/api-validator";
 })
 export class LoginComponent implements OnInit{
 
-  constructor(private api: ApiService, private router: Router, private loginStore: Store<{login: loginStore}>) {
+  constructor(private loginStore: Store<{login: loginStore}>, private loginService: LoginService) {
+    loginStore.select(loginForm).subscribe(form => {
+      this.formDataForSubmit = form
+    })
   }
 
-  loginForm = new FormGroup({
-    "email": new FormControl("", [Validators.email, Validators.required]),
-    "password": new FormControl("", [Validators.required])
-  })
+  formDataForSubmit!: LoginForm
 
-  apiErrors!: string | null
+  loginForm = this.loginService.loginForm
+
+  apiErrors = this.loginService.apiErrors$
 
   submitLoginData() {
-    const formData = {
-      email: this.loginForm.controls.email.value,
-      password: this.loginForm.controls.password.value
-    }
-    this.loginStore.dispatch(loginUser(formData))
-    // this.api.login(this.loginForm.value)
-    //   .pipe(
-    //     catchError((error: HttpErrorResponse) => {
-    //       this.loginForm.controls.email.setValidators(apiValidator)
-    //       this.loginForm.controls.email.updateValueAndValidity()
-    //       this.loginForm.controls.password.setValidators(apiValidator)
-    //       this.loginForm.controls.password.updateValueAndValidity()
-    //       this.apiErrors = error.error.ERROR
-    //       setTimeout(() => {
-    //         this.loginForm.controls.email.removeValidators(apiValidator)
-    //         this.loginForm.controls.email.updateValueAndValidity()
-    //         this.loginForm.controls.password.removeValidators(apiValidator)
-    //         this.loginForm.controls.password.updateValueAndValidity()
-    //         this.apiErrors = null
-    //       }, 4000)
-    //       return throwError(error);
-    //     })
-    //   )
-    //   .subscribe((user) => {
-    //     this.router.navigate(['dashboard']).catch(err => console.log(err))
-    //   })
+    this.loginStore.dispatch(loginUser(this.formDataForSubmit))
   }
 
   ngOnInit() {
