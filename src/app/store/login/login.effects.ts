@@ -1,6 +1,6 @@
 import {Injectable} from "@angular/core";
 import {Actions, createEffect, ofType} from "@ngrx/effects";
-import {catchError, exhaustMap, Observable, of, tap} from "rxjs";
+import {catchError, exhaustMap, Observable} from "rxjs";
 import {loginUser} from "./login.actions";
 import {ApiService} from "../../services/api/api.service";
 import {map} from "rxjs/operators";
@@ -37,8 +37,7 @@ export class LoginEffects {
               private router: Router,
               private userStore: Store<{user: userStore}>,
               private loginService: LoginService
-  ) {
-  }
+  ) {}
 
   setUserOnLogin$: Observable<Action> = createEffect(() => {
     return this.actions$.pipe(
