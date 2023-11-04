@@ -35,8 +35,9 @@ export class AuthGuard implements CanActivate {
             return of(err)
           }),
           map((userData) => {
-            this.userStore.dispatch(setUserData(userData))
+            console.log(userData)
             if (requiredUserDataOnRoute && !userData.error) {
+              this.userStore.dispatch(setUserData(userData))
               return true
             } else if (!requiredUserDataOnRoute && !userData.error) {
               this.router.navigate(['dashboard']).then()
@@ -52,8 +53,11 @@ export class AuthGuard implements CanActivate {
     }else if(!this.authUser$ && !requiredUserDataOnRoute) {
       return true
     } else if (this.authUser$ && !requiredUserDataOnRoute) {
+      console.log(this.authUser$)
+      console.log('error')
       return false
     } else if (!this.authUser$ && requiredUserDataOnRoute) {
+      console.log('error')
       this.router.navigate(['/login']).then()
       return true
     }

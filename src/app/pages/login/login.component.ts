@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {HttpErrorResponse} from "@angular/common/http";
 import {catchError, Observable, throwError} from "rxjs";
@@ -41,7 +41,6 @@ export class LoginComponent implements OnInit{
       this.loginStore.dispatch(setLoginForm(formData));
     })
   }
-
 }
 
 

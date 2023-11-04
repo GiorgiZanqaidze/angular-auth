@@ -13,7 +13,7 @@ const routes: Routes = [
   },
   {
     path: "login",
-    component: LoginComponent,
+    loadChildren: () => import('./pages/login/login.module').then((m) => m.LoginModule),
     canActivate: [AuthGuard],
     data: { requireUserData: false }
   },
