@@ -2,7 +2,6 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import {DashboardComponent} from "./pages/dashboard/dashboard.component";
 import {AuthGuard} from "./guards/auth.guard";
-import {SignUpComponent} from "./pages/sign-up/sign-up.component";
 
 
 const routes: Routes = [
@@ -13,13 +12,13 @@ const routes: Routes = [
   },
   {
     path: "login",
-    loadChildren: () => import("./pages/login/login.module").then(m => {
-      return m.LoginModule
-    }),
+    loadChildren: () => import("./pages/login/login.module").then(m =>  m.LoginModule),
+    canActivate: [AuthGuard],
+    data: { requireUserData: false }
   },
   {
     path: "sign-up",
-    component: SignUpComponent,
+    loadChildren: () => import("./pages/sign-up/sign-up.module").then(m => m.SignUpModule),
     canActivate: [AuthGuard],
     data: { requireUserData: false }
   },
@@ -29,7 +28,6 @@ const routes: Routes = [
     canActivate: [AuthGuard],
     data: { requireUserData: true }
   },
-  { path: 'login', loadChildren: () => import('./pages/login/login.module').then(m => m.LoginModule) },
   {
     path: '**',
     redirectTo: "login"
