@@ -12,6 +12,8 @@ import { DashboardComponent } from './pages/dashboard/dashboard.component';
 import {loginReducer} from "./store/login/login.reducer";
 import {userReducer} from "./store/user/user.reducer";
 import {LoginEffects} from "./store/login/login.effects";
+import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
+import {UIReducer} from "./store/UI/UI.reducer";
 
 
 @NgModule({
@@ -25,12 +27,14 @@ import {LoginEffects} from "./store/login/login.effects";
     BrowserAnimationsModule,
     StoreModule.forRoot({
       login: loginReducer,
-      user: userReducer
+      user: userReducer,
+      UI: UIReducer
     }),
     EffectsModule.forRoot([
       LoginEffects
     ]),
     HttpClientModule,
+    MatProgressSpinnerModule,
   ],
   providers: [{ provide: HTTP_INTERCEPTORS, useClass: BaseUrlService, multi: true }],
   bootstrap: [AppComponent],
