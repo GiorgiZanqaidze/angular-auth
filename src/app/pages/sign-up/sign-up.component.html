@@ -1,5 +1,9 @@
-<div class="min-h-screen min-w-full flex justify-center items-center">
+<div class="min-h-screen min-w-full flex justify-center items-center flex-col">
+  <h1 class="text-3xl text-left w-1/4 border-b pb-5 ">Sign Up</h1>
   <form [formGroup]="signUpForm" (ngSubmit)="submitLoginData()" class="flex items-center w-1/4 flex-col">
+    <mat-hint class="text-red-600 mb-5 w-full" [ngClass]="'block bg-red-100'">
+      Error
+    </mat-hint>
     <mat-form-field class="w-full" color="primary">
       <mat-label>Name</mat-label>
       <input type="text" formControlName="name" matInput id="name">

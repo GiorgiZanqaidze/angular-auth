@@ -6,11 +6,9 @@ import {userStore} from "../store/user/user.reducer";
 import {user} from "../store/user/user.selectors";
 import {catchError, Observable, of, pipe} from "rxjs";
 import {map} from "rxjs/operators";
-import {error} from "@angular/compiler-cli/src/transformers/util";
 import {deleteUserData, setUserData} from "../store/user/user.actions";
 import {UserRole} from "../shared/types/user-role";
-import {HttpClient, HttpContext} from "@angular/common/http";
-
+import {clearAllCookies} from "../shared/utilities/clearCookies"
 
 @Injectable({
   providedIn: 'root'
@@ -42,6 +40,7 @@ export class AuthGuard implements CanActivate {
               this.router.navigate(['dashboard']).then()
               return true
             } else if (!route.data['requireUserData'] && userData.error) {
+              clearAllCookies()
               return true
             } else {
               this.router.navigate(["/login"]).then()

@@ -53,10 +53,10 @@ export class LoginEffects {
           }),
           finalize(() => {
             this.UIStore.dispatch(toggleLoadSpinner({toggle: false}))
-
           }),
           catchError(async (error: HttpErrorResponse): Promise<errorResponse> => {
             this.loginService.setApiError(error.error.message)
+            this.loginService.loginForm.markAsPristine()
             return ({ type: "[Login] Api Error", error })
           }),
         );

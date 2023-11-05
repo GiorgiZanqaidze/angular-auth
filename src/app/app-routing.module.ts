@@ -24,9 +24,15 @@ const routes: Routes = [
   },
   {
     path: 'dashboard',
-    component: DashboardComponent,
+    loadChildren: () => import("./pages/dashboard/dashboard.module").then(m => m.DashboardModule),
     canActivate: [AuthGuard],
     data: { requireUserData: true }
+  },
+  {
+    path: "user-profile",
+    loadChildren: () => import('./pages/user-profile/user-profile.module').then(m => m.UserProfileModule),
+    canActivate: [AuthGuard],
+    data: {requireUserData: true}
   },
   {
     path: '**',
