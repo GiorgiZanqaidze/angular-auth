@@ -21,7 +21,7 @@ export class ApiService {
   constructor(private http: HttpClient, private userStore: Store<{user:userStore}>, private router: Router) { }
 
   login(loginData: LoginForm): Observable<any> {
-    return this.http.get(`/sanctum/csrf-cookie`).pipe(
+    return this.http.get(`/sanctum/csrf-cookie`, {withCredentials: true}).pipe(
       switchMap(() => {
         return this.http.post<ApiModifiedResponse>(`/api/login`, loginData);
       })
@@ -44,6 +44,6 @@ export class ApiService {
   }
 
   signUp(signUpData: Partial<SignUpForm>) {
-    return this.http.post("/api/register", signUpData)
+    return this.http.post("/api/register", signUpData, {withCredentials: false})
   }
 }

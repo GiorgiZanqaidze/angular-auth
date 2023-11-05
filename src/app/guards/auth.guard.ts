@@ -35,8 +35,8 @@ export class AuthGuard implements CanActivate {
             return of(err)
           }),
           map((userData) => {
-            this.userStore.dispatch(setUserData(userData))
             if (requiredUserDataOnRoute && !userData.error) {
+              this.userStore.dispatch(setUserData(userData))
               return true
             } else if (!requiredUserDataOnRoute && !userData.error) {
               this.router.navigate(['dashboard']).then()

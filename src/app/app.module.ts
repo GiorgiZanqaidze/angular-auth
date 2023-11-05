@@ -6,25 +6,20 @@ import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
-import { LoginComponent } from './pages/login/login.component';
-import {MatInputModule} from "@angular/material/input";
-import {ReactiveFormsModule} from "@angular/forms";
-import {MatButtonModule} from "@angular/material/button";
 import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
 import {BaseUrlService} from "./services/interceptors/base-url.service";
 import { DashboardComponent } from './pages/dashboard/dashboard.component';
 import {loginReducer} from "./store/login/login.reducer";
 import {userReducer} from "./store/user/user.reducer";
 import {LoginEffects} from "./store/login/login.effects";
-import { SignUpComponent } from './pages/sign-up/sign-up.component';
+import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
+import {UIReducer} from "./store/UI/UI.reducer";
 
 
 @NgModule({
   declarations: [
     AppComponent,
-    LoginComponent,
     DashboardComponent,
-    SignUpComponent
   ],
   imports: [
     BrowserModule,
@@ -32,15 +27,14 @@ import { SignUpComponent } from './pages/sign-up/sign-up.component';
     BrowserAnimationsModule,
     StoreModule.forRoot({
       login: loginReducer,
-      user: userReducer
+      user: userReducer,
+      UI: UIReducer
     }),
     EffectsModule.forRoot([
       LoginEffects
     ]),
-    MatInputModule,
-    ReactiveFormsModule,
-    MatButtonModule,
-    HttpClientModule
+    HttpClientModule,
+    MatProgressSpinnerModule,
   ],
   providers: [{ provide: HTTP_INTERCEPTORS, useClass: BaseUrlService, multi: true }],
   bootstrap: [AppComponent],

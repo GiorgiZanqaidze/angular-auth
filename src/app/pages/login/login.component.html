@@ -12,6 +12,7 @@
       <mat-label>Password</mat-label>
       <input type="password" formControlName="password" matInput id="password">
     </mat-form-field>
+    <p class="flex w-full my-3"><span class="inline- w-2/5">Already have an account?</span><a [routerLink]="['/sign-up']" class=" hover:underline bg-gray-100 px-2">Sign Up</a></p>
     <button class="w-full text-xl" mat-raised-button color="primary" [disabled]="loginForm.invalid">Log In</button>
   </form>
 </div>

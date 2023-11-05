@@ -22,7 +22,6 @@ export const loginReducer = createReducer(
     return {...state, loginForm: action}
   }),
   on(setLoginError, (state, action) =>{
-    console.log(action.error)
     return state
   })
 )
