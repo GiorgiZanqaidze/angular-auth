@@ -1,6 +1,6 @@
 import {Injectable} from "@angular/core";
 import {Actions, createEffect, ofType} from "@ngrx/effects";
-import {catchError, exhaustMap, Observable} from "rxjs";
+import {catchError, exhaustMap, finalize, Observable} from "rxjs";
 import {loginUser} from "./login.actions";
 import {ApiService} from "../../services/api/api.service";
 import {map} from "rxjs/operators";
@@ -44,16 +44,19 @@ export class LoginEffects {
       exhaustMap(({ email, password }) => {
         return this.apiService.login({ email, password }).pipe(
           map((response: ApiResponse) => {
-            this.router.navigate(['/dashboard']).then();
-            this.UIStore.dispatch(toggleLoadSpinner({toggle: false}))
             const data = response.user
-            this.loginService.loginForm.reset()
-            this.loginService.setApiError(null)
+            this.router.navigate(['/dashboard']).then(() => {
+              this.loginService.loginForm.reset()
+              this.loginService.setApiError(null)
+            });
             return { type: "[User] Set User Dat", data }
+          }),
+          finalize(() => {
+            this.UIStore.dispatch(toggleLoadSpinner({toggle: false}))
+
           }),
           catchError(async (error: HttpErrorResponse): Promise<errorResponse> => {
             this.loginService.setApiError(error.error.message)
-            this.UIStore.dispatch(toggleLoadSpinner({toggle: false}))
             return ({ type: "[Login] Api Error", error })
           }),
         );
