@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {Store} from "@ngrx/store";
 import {LoginService} from "../../services/login/login.service";
 import {LoginForm} from "../../shared/types/login-form";
@@ -7,6 +7,7 @@ import {loginStore} from "../../store/login/login.reducer";
 import {loginForm} from "../../store/login/login.selectors";
 import {toggleLoadSpinner} from "../../store/UI/UI.actions";
 import {UIStore} from "../../store/UI/UI.reducer";
+import {map} from "rxjs/operators";
 
 @Component({
   selector: 'app-login',
@@ -33,9 +34,14 @@ export class LoginComponent implements OnInit{
     this.loginStore.dispatch(loginUser(this.formDataForSubmit))
   }
 
+
   ngOnInit() {
-    this.loginForm.valueChanges.subscribe((form) => {
-      const formData = {email: form.email, password: form.password}
+    this.loginForm.valueChanges
+      .pipe(map((form) => {
+        const formData = {email: form.email, password: form.password}
+        return formData
+      }))
+      .subscribe((formData) => {
       this.loginStore.dispatch(setLoginForm(formData));
     })
   }

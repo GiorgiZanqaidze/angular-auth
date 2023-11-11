@@ -8,7 +8,6 @@ import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
 import {BaseUrlService} from "./services/interceptors/base-url.service";
-import { DashboardComponent } from './pages/dashboard/dashboard.component';
 import {loginReducer} from "./store/login/login.reducer";
 import {userReducer} from "./store/user/user.reducer";
 import {LoginEffects} from "./store/login/login.effects";
@@ -19,7 +18,6 @@ import {UIReducer} from "./store/UI/UI.reducer";
 @NgModule({
   declarations: [
     AppComponent,
-    DashboardComponent,
   ],
   imports: [
     BrowserModule,

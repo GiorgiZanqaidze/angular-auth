@@ -1,8 +1,7 @@
-<p>dashboard works!</p>
-
-<h1>my name is {{user$?.name}}</h1>
-
-
-<a routerLink="/login" >login</a>
-<br>
-<button class="mt-10" (click)="logOut()">Log Out</button>
+<div class="p-5 bg-red-100">
+  <div class="flex justify-end gap-5 ">
+    <h1>{{user$?.name}}</h1>
+    <a [routerLink]="['/user-profile']">My Profile</a>
+    <button (click)="logOut()">Log Out</button>
+  </div>
+</div>
